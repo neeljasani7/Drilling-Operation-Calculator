@@ -51,7 +51,7 @@ def _install_styles(theme: str = "Dark") -> None:
     st.markdown(
         """
         <style>
-          :root { color-scheme: dark; }
+          :root { color-scheme: dark; --primary-color:#19d3c5; accent-color:#19d3c5; }
           .stApp {
             color: #f4f8fb;
             background:
@@ -182,7 +182,7 @@ def _install_styles(theme: str = "Dark") -> None:
         st.markdown(
             """
             <style>
-              :root { color-scheme: light; }
+              :root { color-scheme: light; --primary-color:#08796e; accent-color:#08796e; }
               .stApp {
                 color: #17212b !important;
                 background: #f4f7fa !important;
@@ -396,8 +396,8 @@ def drilling_animation(
 ) -> str:
     """Build an input-responsive SVG cutaway; this is not machine-control output."""
     center_x, surface_y = 380.0, 252.0
-    drill_width = min(38.0, max(12.0, diameter_mm * 1.55))
-    hole_width = min(90.0, max(drill_width + 12.0, diameter_mm * 2.35))
+    drill_width = min(54.0, max(20.0, diameter_mm * 2.2))
+    hole_width = min(110.0, max(drill_width + 16.0, diameter_mm * 3.2))
     hole_left, hole_right = center_x - hole_width / 2.0, center_x + hole_width / 2.0
     drill_left, drill_right = center_x - drill_width / 2.0, center_x + drill_width / 2.0
     depth_px = min(112.0, max(28.0, depth_mm * 3.3))
@@ -811,7 +811,7 @@ else:
             '<div class="preview-toolbar"><div><div class="preview-title">Live toolpath cutaway</div><div class="preview-subtitle">The schematic responds to drill size, point angle, hole type, feed and spindle setpoint.</div></div></div>',
             unsafe_allow_html=True,
         )
-        sim_left, sim_right = st.columns([1.9, 0.78], gap="large")
+        sim_left, sim_right = st.columns([2.2, 0.72], gap="large")
         with sim_left:
             st.markdown(
                 drilling_animation(
