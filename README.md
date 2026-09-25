@@ -7,7 +7,8 @@ An interactive Streamlit teaching app for Diploma in Mechanical Engineering, Sem
 - HSS and carbide tool choices with five workpiece material groups and editable speed/feed settings.
 - RPM, feed rate, drill-point allowance, feed travel, feed-motion time, feed-per-flute estimate, and cylindrical material-removal-rate estimate.
 - Optional spindle/feed caps and an extended cycle estimate with rapid travel, peck retracts and pauses, dwell, and tool-change allowances.
-- Live drill preview plus a downloadable animated GIF that updates with diameter, RPM, feed, hole depth, hole type, and playback speed. Includes cycle-time chart, RPM/speed sensitivity plots, saved-run comparisons, and CSV downloads.
+- Enlarged live axial cutaway: the drill illustration changes with diameter, point angle, tool material, hole depth, hole type, approach clearance, RPM, and feed. Select automatic motion or inspect approach, cutting, bottom, and retract stages.
+- Optional video-style GIF playback/export based on the current settings. Includes a cycle-time chart, RPM/speed sensitivity plots, saved-run comparisons, and CSV downloads.
 - Formula trace, labeled metric units, input validation, fixed **PAPER X** group and member names, and reference links.
 - Dark and light display themes: dark mode uses white text on dark surfaces; light mode uses dark text on light surfaces.
 
@@ -47,7 +48,7 @@ The five-page report and seven-slide presentation are included beside the source
 - Feed-motion time: `(approach + full-diameter depth + point allowance) / feed rate × 60` seconds.
 - Approach clearance defaults to 2 mm and is editable. The optional extended estimate adds the displayed rapid, peck, dwell, and tool-change allowances.
 - Machine caps apply to spindle speed and feed when enabled. The feed recommendation is an educational starting estimate, not manufacturer-specific data.
-- The animation is illustrative. Estimates exclude loading, workholding, acceleration ramps, controller-specific motion profiles, setup time, and actual production variability.
+- The animation is illustrative. The phase selector is a schematic position preview, not an actual machine simulation. Estimates exclude loading, workholding, acceleration ramps, controller-specific motion profiles, setup time, and actual production variability.
 - The dependency minimum is Streamlit 1.49 because the app uses the current `width="stretch"` layout option.
 
 ## References

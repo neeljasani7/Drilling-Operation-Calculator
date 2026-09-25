@@ -145,12 +145,29 @@ def _install_styles(theme: str = "Dark") -> None:
           .drill-drop { transform-box:fill-box; transform-origin:center top; animation:drill-cycle var(--cycle-duration) cubic-bezier(.42,0,.2,1) infinite; }
           .rotor { transform-box:fill-box; transform-origin:center; animation:rotor-spin var(--spin-duration) linear infinite; }
           .tip-glow { animation:tip-glow 1.5s ease-in-out infinite; }
-          @keyframes drill-cycle { 0%,12% { transform:translateY(0); } 57%,68% { transform:translateY(var(--travel)); } 100% { transform:translateY(0); } }
+          @keyframes drill-cycle { 0%,12% { transform:translateY(var(--start-offset)); } 57%,68% { transform:translateY(calc(var(--start-offset) + var(--travel))); } 100% { transform:translateY(var(--start-offset)); } }
           @keyframes rotor-spin { to { transform:rotate(360deg); } }
           @keyframes tip-glow { 0%,100% { opacity:.38; } 50% { opacity:1; } }
           .motion-off .drill-drop,.motion-off .rotor,.motion-off .tip-glow,.motion-off .live-indicator:before,.motion-off .scan-line:after { animation:none !important; }
           .sim-caption { color:#F4F8FB; font-size:.8rem; margin:.35rem .15rem 0; }
           .small-note { color:#F4F8FB; font-size:.84rem; }
+          [data-testid="stMainBlockContainer"] { max-width: 1560px; padding-top: 1.25rem; }
+          [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 { letter-spacing: .01em; }
+          div[data-testid="stTabs"] { border-bottom: 1px solid rgba(110,160,182,.2); }
+          div[data-testid="stTabs"] button[role="tab"] { min-height: 3rem; }
+          .hero-shell { padding: 1.8rem 2rem 1.55rem; }
+          .hero-title { letter-spacing: -.035em; }
+          .hero-meta { display:flex; gap:.55rem; align-items:center; flex-wrap:wrap; margin-top:1rem; }
+          .hero-pill { display:inline-flex; align-items:center; gap:.4rem; border:1px solid rgba(134,225,222,.28); border-radius:999px; padding:.38rem .72rem; color:#e9fbfb; background:rgba(4,24,36,.32); font-size:.77rem; }
+          .preview-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin:.1rem 0 .7rem; }
+          .preview-title { color:#eaf7fc; font-size:1.06rem; font-weight:730; }
+          .preview-subtitle { color:#a8c0cd; font-size:.82rem; margin-top:.16rem; }
+          .telemetry-card { border:1px solid rgba(90,174,199,.23); border-radius:16px; padding:1rem 1.1rem; background:linear-gradient(145deg,rgba(15,43,62,.96),rgba(8,29,45,.96)); margin:.25rem 0 .8rem; }
+          .telemetry-label { color:#8caebe; text-transform:uppercase; letter-spacing:.11em; font-size:.68rem; font-weight:750; }
+          .telemetry-value { color:#f0fbff; font-size:1.3rem; line-height:1.25; font-weight:760; margin-top:.28rem; }
+          .telemetry-detail { color:#c2d4de; font-size:.78rem; margin-top:.22rem; }
+          .motion-legend { display:flex; flex-wrap:wrap; gap:.45rem; margin:.5rem 0 .1rem; }
+          .motion-chip { border:1px solid rgba(90,174,199,.25); border-radius:9px; padding:.35rem .55rem; color:#d5e6ee; background:rgba(9,31,46,.62); font-size:.74rem; }
           div[data-testid="stTabs"] button[role="tab"] { color:#F4F8FB; font-weight:650; }
           div[data-testid="stTabs"] button[aria-selected="true"] { color:#5AF0E4; }
           div[data-testid="stAlert"] { border-radius:12px; }
@@ -216,6 +233,12 @@ def _install_styles(theme: str = "Dark") -> None:
               .hero-title, .hero-copy, .live-indicator, .cycle-model { color: #17212b !important; }
               .hero-kicker, .section-eyebrow { color: #08796e !important; }
               .muted-copy, .small-note, .sim-caption { color: #263746 !important; }
+              .preview-title, .telemetry-value { color: #142630 !important; }
+              .preview-subtitle, .telemetry-detail { color: #405765 !important; }
+              .telemetry-card { background:linear-gradient(145deg,#ffffff,#f2f6f9) !important; border-color:#d1dce5 !important; }
+              .telemetry-label { color:#45616f !important; }
+              .hero-pill { color:#17323c !important; background:rgba(255,255,255,.62) !important; border-color:#9fcac7 !important; }
+              .motion-chip { color:#203743 !important; background:#ffffff !important; border-color:#d1dce5 !important; }
               .formula-box {
                 color: #17212b !important;
                 background: #ffffff !important;
@@ -240,12 +263,14 @@ def _hero(motion_enabled: bool, cycle_mode: str) -> None:
     st.markdown(
         f"""
         <div class="hero-shell{motion_class}">
-          <div class="hero-kicker">DME · Semester 3 · Machining simulator</div>
-          <div class="hero-title">DrillLab <span style="color:#19d3c5">/</span> Drilling Operations</div>
-          <p class="hero-copy">Explore cutting speed, machine limits, drill-point geometry and cycle-time components in one interactive workspace.</p>
-          <div style="display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap;margin-top:1rem">
-            <span class="live-indicator">Simulation ready</span>
-            <span class="cycle-model">Cycle model: {cycle_mode}</span>
+          <div class="hero-kicker">DIPLOMA MECHANICAL ENGINEERING · SEMESTER 3</div>
+          <div class="hero-title">DrillLab <span style="color:#19d3c5">/</span> Drilling Process Simulator</div>
+          <p class="hero-copy">Explore cutting data, spindle limits, drill-point geometry and cycle time through a live, input-responsive engineering model.</p>
+          <div class="hero-meta">
+            <span class="hero-pill">PAPER X</span>
+            <span class="hero-pill">NEEL JASANI · MANVIR PANCHAL · REHANT PATIL</span>
+            <span class="hero-pill live-indicator">{('Simulation running' if motion_enabled else 'Simulation paused')}</span>
+            <span class="hero-pill cycle-model">{cycle_mode}</span>
           </div>
           <div class="scan-line"></div>
         </div>
@@ -364,51 +389,105 @@ def drilling_animation(
     hole_type: str,
     motion_enabled: bool,
     playback_rate: float,
+    approach_mm: float,
+    point_angle_deg: float,
+    tool_material: str,
+    preview_phase: str,
 ) -> str:
-    """Build an input-responsive SVG preview; this is not machine-control output."""
-    total = max(depth_mm + tip_mm, 1.0)
-    travel_px = min(92.0, max(26.0, 88.0 * min(total / 32.0, 1.0)))
-    drill_width = min(38.0, max(10.0, diameter_mm * 1.5))
-    hole_width = min(84.0, max(drill_width + 6.0, diameter_mm * 2.2))
-    hole_left = 380.0 - hole_width / 2.0
-    hole_right = 380.0 + hole_width / 2.0
-    drill_left = 380.0 - drill_width / 2.0
-    drill_right = 380.0 + drill_width / 2.0
+    """Build an input-responsive SVG cutaway; this is not machine-control output."""
+    center_x, surface_y = 380.0, 252.0
+    drill_width = min(38.0, max(12.0, diameter_mm * 1.55))
+    hole_width = min(90.0, max(drill_width + 12.0, diameter_mm * 2.35))
+    hole_left, hole_right = center_x - hole_width / 2.0, center_x + hole_width / 2.0
+    drill_left, drill_right = center_x - drill_width / 2.0, center_x + drill_width / 2.0
+    depth_px = min(112.0, max(28.0, depth_mm * 3.3))
+    point_px = min(44.0, max(5.0, tip_mm * 3.3))
+    point_angle_visual = min(42.0, max(18.0, point_px))
+    initial_tip_y = 169.0 + point_angle_visual
+    px_per_mm = depth_px / max(depth_mm, 0.1)
+    approach_px = min(32.0, max(4.0, approach_mm * px_per_mm)) if approach_mm else 0.0
+    start_offset = surface_y - approach_px - initial_tip_y
+    bottom_offset = surface_y + depth_px + point_px - initial_tip_y
+    travel_px = max(0.0, bottom_offset - start_offset)
+    blind_hole = hole_type == "Blind hole"
+    stage_offsets = {
+        "Approach": start_offset,
+        "Cutting": start_offset + travel_px * 0.54,
+        "Bottom": bottom_offset,
+        "Retract": start_offset,
+    }
+    stage_text = "AUTOMATIC CYCLE" if preview_phase == "Auto cycle" else preview_phase.upper()
+    fixed_offset = stage_offsets.get(preview_phase, start_offset)
+    auto_motion = motion_enabled and preview_phase == "Auto cycle"
+    stage_style = "" if auto_motion else f"animation:none;transform:translateY({fixed_offset:.1f}px)"
+    stage_kicker = {
+        "Auto cycle": "AUTO CYCLE · FEED / RETRACT",
+        "Approach": "STAGE 01 · APPROACH CLEARANCE",
+        "Cutting": "STAGE 02 · AXIAL FEED",
+        "Bottom": "STAGE 03 · FULL DEPTH / POINT",
+        "Retract": "STAGE 04 · RETURN TO SAFE POSITION",
+    }.get(preview_phase, "AUTO CYCLE · FEED / RETRACT")
+    tool_color_a, tool_color_b, tool_color_c = (
+        ("#FFD18A", "#F2A640", "#A85F12") if tool_material == "Carbide"
+        else ("#7CF6EA", "#19D3C5", "#16859C")
+    )
+    stock_gradient = "url(#stock)"
+    if blind_hole:
+        stock_shapes = f"""
+          <rect x="100" y="{surface_y}" width="{hole_left - 100:.1f}" height="148" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
+          <rect x="{hole_right:.1f}" y="{surface_y}" width="{660 - hole_right:.1f}" height="148" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
+          <rect x="{hole_left:.1f}" y="{surface_y}" width="{hole_width:.1f}" height="{depth_px:.1f}" fill="#061725"/>
+          <path d="M{hole_left:.1f} {surface_y + depth_px:.1f} L{center_x:.1f} {surface_y + depth_px + point_px:.1f} L{hole_right:.1f} {surface_y + depth_px:.1f} Z" fill="#061725" stroke="#19D3C5" stroke-opacity=".65"/>
+          <rect x="100" y="{surface_y + 148}" width="560" height="18" rx="2" fill="url(#stock)" stroke="#50748B"/>
+        """
+    else:
+        stock_shapes = f"""
+          <rect x="100" y="{surface_y}" width="{hole_left - 100:.1f}" height="166" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
+          <rect x="{hole_right:.1f}" y="{surface_y}" width="{660 - hole_right:.1f}" height="166" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
+        """
     cycle_duration = min(18.0, max(4.0, feed_time_sec / max(playback_rate, 0.25)))
     spin_duration = min(2.5, max(0.12, 800.0 / max(spindle_rpm, 1.0)))
     wrapper_class = "sim-frame" if motion_enabled else "sim-frame motion-off"
     return f"""
-    <div class="{wrapper_class}" style="--travel:{travel_px:.1f}px;--cycle-duration:{cycle_duration:.2f}s;--spin-duration:{spin_duration:.2f}s">
-      <svg viewBox="0 0 760 375" role="img" aria-label="Illustrative {diameter_mm:g} millimetre drill at {spindle_rpm:.0f} rpm entering a {hole_type.lower()}">
+    <div class="{wrapper_class}" style="--travel:{travel_px:.1f}px;--start-offset:{start_offset:.1f}px;--cycle-duration:{cycle_duration:.2f}s;--spin-duration:{spin_duration:.2f}s">
+      <svg viewBox="0 0 760 450" role="img" aria-label="Animated {tool_material} drill, diameter {diameter_mm:g} millimetres, {spindle_rpm:.0f} rpm, cutting a {hole_type.lower()} to {depth_mm:g} millimetres">
         <defs>
           <linearGradient id="stock" x1="0" x2="1"><stop offset="0" stop-color="#203C52"/><stop offset="1" stop-color="#132D43"/></linearGradient>
-          <linearGradient id="tool" x1="0" x2="1"><stop offset="0" stop-color="#6CFFF1"/><stop offset=".45" stop-color="#19D3C5"/><stop offset="1" stop-color="#16859C"/></linearGradient>
+          <linearGradient id="tool" x1="0" x2="1"><stop offset="0" stop-color="{tool_color_a}"/><stop offset=".48" stop-color="{tool_color_b}"/><stop offset="1" stop-color="{tool_color_c}"/></linearGradient>
           <radialGradient id="glow"><stop offset="0" stop-color="#19D3C5" stop-opacity=".55"/><stop offset="1" stop-color="#19D3C5" stop-opacity="0"/></radialGradient>
           <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#5A8199" stroke-opacity=".12" stroke-width="1"/></pattern>
+          <pattern id="flutes" width="16" height="18" patternUnits="userSpaceOnUse"><path d="M-3 18 Q8 9 19 0" fill="none" stroke="#052B3A" stroke-opacity=".52" stroke-width="3"/><path d="M4 20 Q13 11 21 4" fill="none" stroke="#E7FFFC" stroke-opacity=".42" stroke-width="1.3"/></pattern>
         </defs>
-        <rect x="0" y="0" width="760" height="375" rx="13" fill="url(#grid)"/>
-        <text x="28" y="34" fill="#75DCD7" font-size="13" font-family="Arial" letter-spacing="2">AXIAL CUTAWAY · MOTION PREVIEW</text>
-        <text x="632" y="34" fill="#F4F8FB" font-size="11" font-family="Arial">NOT TO SCALE</text>
-        <text x="28" y="57" fill="#F4F8FB" font-size="12" font-family="Arial">D = {diameter_mm:.1f} mm  ·  N = {spindle_rpm:,.0f} rpm  ·  Vf = {feed_rate_mm_min:,.1f} mm/min</text>
-        <rect x="95" y="187" width="{hole_left - 95:.1f}" height="153" rx="5" fill="url(#stock)" stroke="#50748B" stroke-width="1.5"/>
-        <rect x="{hole_right:.1f}" y="187" width="{665 - hole_right:.1f}" height="153" rx="5" fill="url(#stock)" stroke="#50748B" stroke-width="1.5"/>
-        <rect x="{hole_left:.1f}" y="188" width="{hole_width:.1f}" height="151" fill="#061725" opacity=".96"/>
-        <line x1="78" y1="187" x2="682" y2="187" stroke="#FFB15C" stroke-dasharray="7 6" stroke-width="1.6"/>
-        <text x="99" y="174" fill="#FFC27F" font-size="12" font-family="Arial">WORK SURFACE</text>
-        <line x1="380" y1="187" x2="380" y2="337" stroke="#5A879D" stroke-dasharray="4 5" stroke-width="1"/>
-        <g class="drill-drop">
-          <rect x="350" y="48" width="60" height="43" rx="7" fill="#17384C" stroke="#4D93A4" stroke-width="2"/>
-          <rect x="358" y="88" width="44" height="32" fill="#27526A" stroke="#4D93A4" stroke-width="1.5"/>
-          <g class="rotor"><circle cx="380" cy="69" r="12" fill="none" stroke="#19D3C5" stroke-opacity=".75" stroke-width="1.5"/><path d="M380 57V81M368 69H392" stroke="#19D3C5" stroke-opacity=".8" stroke-width="1.2"/></g>
-          <rect x="{drill_left:.1f}" y="117" width="{drill_width:.1f}" height="39" fill="url(#tool)"/>
-          <path d="M{drill_left:.1f} 153 L380 181 L{drill_right:.1f} 153 Z" fill="url(#tool)" stroke="#8CFFF5" stroke-width="1"/>
-          <ellipse class="tip-glow" cx="380" cy="181" rx="29" ry="12" fill="url(#glow)"/>
+        <rect x="0" y="0" width="760" height="450" rx="13" fill="url(#grid)"/>
+        <text x="28" y="33" fill="#75DCD7" font-size="12" font-family="Arial" letter-spacing="1.8">MOTION SIMULATOR  /  AXIAL CUTAWAY</text>
+        <text x="665" y="33" fill="#9DB6C4" font-size="10" font-family="Arial">SCHEMATIC</text>
+        <text x="28" y="57" fill="#F4F8FB" font-size="12" font-family="Arial">{tool_material.upper()}  ·  D {diameter_mm:.1f} mm  ·  N {spindle_rpm:,.0f} rpm  ·  f {feed_rate_mm_min:,.0f} mm/min</text>
+        <rect x="24" y="74" width="240" height="27" rx="13" fill="#12394B" stroke="#267486"/>
+        <text x="38" y="92" fill="#B8F8F1" font-size="10" font-family="Arial" letter-spacing="1.1">{stage_kicker}</text>
+        <text x="606" y="92" fill="#A8C0CD" font-size="10" font-family="Arial">{stage_text}</text>
+        <line x1="75" y1="{surface_y}" x2="685" y2="{surface_y}" stroke="#FFB15C" stroke-dasharray="7 6" stroke-width="1.5"/>
+        {stock_shapes}
+        <line x1="{hole_left:.1f}" y1="{surface_y}" x2="{hole_left:.1f}" y2="{surface_y + depth_px:.1f}" stroke="#56D9CF" stroke-opacity=".7" stroke-width="1"/>
+        <line x1="{hole_right:.1f}" y1="{surface_y}" x2="{hole_right:.1f}" y2="{surface_y + depth_px:.1f}" stroke="#56D9CF" stroke-opacity=".7" stroke-width="1"/>
+        <text x="104" y="{surface_y - 11}" fill="#FFC27F" font-size="11" font-family="Arial">WORK SURFACE</text>
+        <line x1="{center_x}" y1="{surface_y}" x2="{center_x}" y2="410" stroke="#5A879D" stroke-dasharray="4 5" stroke-width="1" opacity=".7"/>
+        <line x1="{hole_right + 35:.1f}" y1="{surface_y + 2:.1f}" x2="{hole_right + 35:.1f}" y2="{surface_y + depth_px:.1f}" stroke="#19D3C5" stroke-width="1.4"/>
+        <path d="M{hole_right + 31:.1f} {surface_y + 8:.1f} L{hole_right + 35:.1f} {surface_y + 1:.1f} L{hole_right + 39:.1f} {surface_y + 8:.1f} M{hole_right + 31:.1f} {surface_y + depth_px - 7:.1f} L{hole_right + 35:.1f} {surface_y + depth_px + 1:.1f} L{hole_right + 39:.1f} {surface_y + depth_px - 7:.1f}" fill="none" stroke="#19D3C5" stroke-width="1.3"/>
+        <text x="{hole_right + 45:.1f}" y="{surface_y + depth_px / 2:.1f}" fill="#BDEDEA" font-size="11" font-family="Arial">FULL Ø</text>
+        <text x="{hole_right + 45:.1f}" y="{surface_y + depth_px / 2 + 15:.1f}" fill="#E8F2FA" font-size="12" font-family="Arial">{depth_mm:.1f} mm</text>
+        <g class="drill-drop" style="{stage_style}">
+          <rect x="351" y="48" width="58" height="39" rx="7" fill="#17384C" stroke="#4D93A4" stroke-width="2"/>
+          <rect x="359" y="85" width="42" height="32" fill="#27526A" stroke="#4D93A4" stroke-width="1.5"/>
+          <g class="rotor"><circle cx="380" cy="67" r="12" fill="none" stroke="{tool_color_b}" stroke-opacity=".82" stroke-width="1.5"/><path d="M380 55V79M368 67H392" stroke="{tool_color_b}" stroke-opacity=".9" stroke-width="1.2"/></g>
+          <rect x="{drill_left:.1f}" y="114" width="{drill_width:.1f}" height="57" fill="url(#tool)"/>
+          <rect x="{drill_left:.1f}" y="114" width="{drill_width:.1f}" height="57" fill="url(#flutes)"/>
+          <path d="M{drill_left:.1f} 169 L{center_x} {169 + point_angle_visual:.1f} L{drill_right:.1f} 169 Z" fill="url(#tool)" stroke="{tool_color_a}" stroke-width="1"/>
+          <ellipse class="tip-glow" cx="{center_x}" cy="{169 + point_angle_visual:.1f}" rx="25" ry="9" fill="url(#glow)"/>
         </g>
-        <line x1="445" y1="203" x2="445" y2="322" stroke="#19D3C5" stroke-width="1.5"/>
-        <path d="M440 211 L445 202 L450 211 M440 314 L445 323 L450 314" fill="none" stroke="#19D3C5" stroke-width="1.5"/>
-        <text x="458" y="253" fill="#BDEDEA" font-size="12" font-family="Arial">DEPTH</text>
-        <text x="458" y="271" fill="#E8F2FA" font-size="14" font-family="Arial">{depth_mm:.1f} mm</text>
-        <text x="28" y="361" fill="#F4F8FB" font-size="11" font-family="Arial">Tool size follows D; rotor and feed-loop speed respond to RPM, feed rate and playback setting.</text>
+        <line x1="{hole_left:.1f}" y1="432" x2="{hole_right:.1f}" y2="432" stroke="#8DDDD7" stroke-width="1.1"/>
+        <path d="M{hole_left:.1f} 427 L{hole_left:.1f} 437 M{hole_right:.1f} 427 L{hole_right:.1f} 437" stroke="#8DDDD7"/>
+        <text x="380" y="447" text-anchor="middle" fill="#BDEDEA" font-size="10" font-family="Arial">HOLE Ø {diameter_mm:.1f} mm</text>
+        <text x="28" y="425" fill="#F4F8FB" font-size="10" font-family="Arial">{hole_type.upper()}  ·  {point_angle_deg:g}° POINT  ·  {tip_mm:.2f} mm {('POINT ALLOWANCE' if blind_hole else 'BREAKTHROUGH ALLOWANCE')}</text>
       </svg>
     </div>
     """
@@ -711,27 +790,28 @@ else:
                 )
 
     with simulation_tab:
-        playback_rate = st.slider(
-            "Animation playback speed",
-            min_value=0.25,
-            max_value=8.0,
-            value=2.0,
-            step=0.25,
-            help="The visual loop and downloadable GIF use your current drill diameter, RPM, feed, depth, and this playback rate.",
+        playback_controls, motion_controls = st.columns([1, 1.8])
+        with playback_controls:
+            playback_rate = st.slider(
+                "Playback speed",
+                min_value=0.25,
+                max_value=8.0,
+                value=2.0,
+                step=0.25,
+                help="Changes the visual feed cycle and exported GIF speed. The displayed machine estimate is unchanged.",
+            )
+        with motion_controls:
+            preview_phase = st.radio(
+                "Motion stage",
+                ["Auto cycle", "Approach", "Cutting", "Bottom", "Retract"],
+                horizontal=True,
+                help="Auto cycle animates the feed and retract. Choose a stage to inspect the drill position frame by frame.",
+            )
+        st.markdown(
+            '<div class="preview-toolbar"><div><div class="preview-title">Live toolpath cutaway</div><div class="preview-subtitle">The schematic responds to drill size, point angle, hole type, feed and spindle setpoint.</div></div></div>',
+            unsafe_allow_html=True,
         )
-        animation_gif = _cached_drill_gif(
-            diameter_mm,
-            depth_mm,
-            result["point_allowance_mm"],
-            result["spindle_rpm"],
-            result["feed_rate_mm_min"],
-            result["cycle_time_sec"],
-            hole_type,
-            tool_material,
-            playback_rate,
-        )
-        encoded_gif = base64.b64encode(animation_gif).decode("ascii")
-        sim_left, sim_right = st.columns([1.5, 1])
+        sim_left, sim_right = st.columns([1.9, 0.78], gap="large")
         with sim_left:
             st.markdown(
                 drilling_animation(
@@ -744,39 +824,75 @@ else:
                     hole_type,
                     motion_enabled,
                     playback_rate,
+                    approach_mm,
+                    float(point_angle),
+                    tool_material,
+                    preview_phase,
                 ),
                 unsafe_allow_html=True,
             )
-            if motion_enabled:
+            if preview_phase == "Auto cycle" and not motion_enabled:
+                st.info("The motion is paused at the approach position. Turn on **Animate drill preview** in the sidebar or select a motion stage.")
+            st.caption("Schematic cross-section · geometry is illustrative and not to scale. Point allowance is added after the full-diameter depth.")
+            show_gif = st.toggle(
+                "Render video-style playback and export GIF",
+                value=False,
+                help="Generates a downloadable animated GIF from the current drill, material, hole and motion settings.",
+            )
+            if show_gif:
+                animation_gif = _cached_drill_gif(
+                    diameter_mm,
+                    depth_mm,
+                    result["point_allowance_mm"],
+                    result["spindle_rpm"],
+                    result["feed_rate_mm_min"],
+                    result["cycle_time_sec"],
+                    hole_type,
+                    tool_material,
+                    playback_rate,
+                )
+                encoded_gif = base64.b64encode(animation_gif).decode("ascii")
                 st.markdown(
-                    f'<div class="sim-frame"><img src="data:image/gif;base64,{encoded_gif}" alt="Animated drill video matching the current inputs" style="display:block;width:100%;height:auto;border-radius:12px"></div>',
+                    f'<div class="sim-frame"><img src="data:image/gif;base64,{encoded_gif}" alt="GIF playback matching the current drill setup" style="display:block;width:100%;height:auto;border-radius:12px"></div>',
                     unsafe_allow_html=True,
                 )
-            else:
-                st.info("Animation is paused. Turn on **Animate drill preview** in the sidebar to play the live preview and GIF.")
-            st.download_button(
-                "Download animated drill video (GIF)",
-                data=animation_gif,
-                file_name="drilllab_current_setup.gif",
-                mime="image/gif",
-                width="stretch",
-            )
-            st.caption("Both previews update from the selected diameter, depth, RPM, feed, hole type, tool, and playback speed. The animation is schematic, not to scale.")
+                st.download_button(
+                    "Download current motion as GIF",
+                    data=animation_gif,
+                    file_name="drilllab_current_setup.gif",
+                    mime="image/gif",
+                    width="stretch",
+                )
         with sim_right:
-            st.markdown("### Operation sequence")
+            st.markdown("### Process telemetry")
             st.markdown(
-                "1. **Position** above the work surface using the configured rapid approach.\n\n"
-                "2. **Feed** through the approach clearance and full-diameter depth.\n\n"
-                f"3. **Complete the point travel** by {result['point_allowance_mm']:.2f} mm for the {hole_type.lower()} model.\n\n"
-                "4. **Retract and finish** using the selected cycle-time model."
+                f'<div class="telemetry-card"><div class="telemetry-label">Spindle setpoint</div><div class="telemetry-value">{result["spindle_rpm"]:,.0f} <span style="font-size:.76rem;font-weight:550">rpm</span></div><div class="telemetry-detail">Actual cutting speed {result["actual_cutting_speed_m_min"]:.1f} m/min</div></div>',
+                unsafe_allow_html=True,
             )
-            st.metric("Current model estimate", format_duration(selected_cycle_sec))
-            st.metric("Drill-point allowance", f"{result['point_allowance_mm']:.2f} mm")
-        st.markdown("#### Motion assumptions")
-        st.write(
-            "The live loop is a visual teaching model. Rotor rate follows RPM and feed travel follows the feed-motion time; GIF playback speed can be adjusted above. "
-            "Neither preview models chip formation, coolant, forces, machine acceleration, or controller timing, and neither is a machine command."
-        )
+            st.markdown(
+                f'<div class="telemetry-card"><div class="telemetry-label">Axial feed</div><div class="telemetry-value">{result["feed_rate_mm_min"]:,.0f} <span style="font-size:.76rem;font-weight:550">mm/min</span></div><div class="telemetry-detail">{result["effective_feed_per_rev_mm"]:.3f} mm/rev · {flutes} flutes</div></div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                f'<div class="telemetry-card"><div class="telemetry-label">Estimated {"machine cycle" if cycle_mode == "Extended machine cycle" else "feed-motion time"}</div><div class="telemetry-value">{format_duration(selected_cycle_sec)}</div><div class="telemetry-detail">Feed travel {result["total_feed_travel_mm"]:.2f} mm</div></div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                f'<div class="motion-legend"><span class="motion-chip">{tool_material}</span><span class="motion-chip">{MATERIAL_LABELS[material_key]}</span><span class="motion-chip">{hole_type}</span><span class="motion-chip">{point_angle}° point</span></div>',
+                unsafe_allow_html=True,
+            )
+            with st.expander("Operation sequence", expanded=False):
+                st.markdown(
+                    "1. **Approach** to the configured feed clearance.\n\n"
+                    "2. **Feed** through the clearance and full-diameter hole depth.\n\n"
+                    f"3. **Finish the point travel** by {result['point_allowance_mm']:.2f} mm ({allowance_type.lower()}).\n\n"
+                    "4. **Retract** to the safe position."
+                )
+        with st.expander("Motion model and assumptions", expanded=False):
+            st.write(
+                "The spindle icon rotates in relation to the calculated RPM and the feed loop follows the estimated feed-motion time. "
+                "The stage selector provides a manual position preview. The GIF export is a visual teaching aid. Neither preview models chip formation, coolant, forces, machine acceleration, controller timing, or real machine motion."
+            )
 
     with lab_tab:
         data_tab, sensitivity_tab, formulas_tab = st.tabs(["Cutting-data matrix", "Sensitivity analysis", "Engineering notes"])
