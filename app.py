@@ -547,9 +547,10 @@ with st.sidebar:
 
     motion_enabled = st.toggle("Animate drill preview", value=True)
 
+    team_members = "NEEL JASANI, MANVIR PANCHAL, REHANT PATIL"
     with st.expander("Team details"):
-        group_number = st.text_input("Group number", "[Enter group number]")
-        team_members = st.text_area("Member names and enrollment numbers", "[Enter member names and enrollment numbers]", height=90)
+        st.caption("Group: PAPER X")
+        st.caption(f"Members: {team_members}")
     with st.expander("Reference data and limits"):
         st.markdown(
             "Classroom starting values only. Exact speed/feed depends on material grade and hardness, "
@@ -881,7 +882,7 @@ else:
             st.info("No saved runs yet. Open Live dashboard and choose **Save setup for comparison**.")
 
 with st.expander("Group details", expanded=False):
-    st.write(f"**Group:** {group_number}")
+    st.write("**Group:** PAPER X")
     st.write(f"**Members:** {team_members}")
 
 st.markdown("---")

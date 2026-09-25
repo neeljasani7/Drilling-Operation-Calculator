@@ -8,7 +8,7 @@ An interactive Streamlit teaching app for Diploma in Mechanical Engineering, Sem
 - RPM, feed rate, drill-point allowance, feed travel, feed-motion time, feed-per-flute estimate, and cylindrical material-removal-rate estimate.
 - Optional spindle/feed caps and an extended cycle estimate with rapid travel, peck retracts and pauses, dwell, and tool-change allowances.
 - Live drill preview plus a downloadable animated GIF that updates with diameter, RPM, feed, hole depth, hole type, and playback speed. Includes cycle-time chart, RPM/speed sensitivity plots, saved-run comparisons, and CSV downloads.
-- Formula trace, labeled metric units, input validation, editable group/member placeholders, and reference links.
+- Formula trace, labeled metric units, input validation, fixed **PAPER X** group and member names, and reference links.
 - Dark and light display themes: dark mode uses white text on dark surfaces; light mode uses dark text on light surfaces.
 
 ## Run locally
@@ -31,13 +31,13 @@ If PowerShell blocks environment activation, run the app using the virtual envir
 
 ## GitHub and Streamlit Community Cloud
 
-1. Create a public GitHub repository and upload **all five project files**: `app.py`, `drilling_calculations.py`, `drilling_visualization.py`, `requirements.txt`, and `README.md`.
+1. Create a public GitHub repository and upload the project files: `app.py`, `drilling_calculations.py`, `drilling_visualization.py`, `requirements.txt`, `README.md`, and `.gitignore`.
 2. Sign in to Streamlit Community Cloud with the GitHub account that owns the repository.
 3. Choose **New app**, select the repository and branch, set the main file to `app.py`, and deploy.
 4. Open the deployed link and confirm that the app loads and recalculates when inputs change.
 5. Add the GitHub repository URL and deployed app URL to the college LMS submission.
 
-The five-page report and seven-slide presentation are included beside the source files. Fill in group/member placeholders and replace the report's illustrative calculation with the group's textbook example before submission.
+The five-page report and seven-slide presentation are included beside the source files. Update their team placeholders and replace the report's illustrative calculation with the group's textbook example before submission. The app permanently displays group PAPER X and the names NEEL JASANI, MANVIR PANCHAL, and REHANT PATIL.
 
 ## Calculation model and assumptions
 
