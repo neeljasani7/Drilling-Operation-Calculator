@@ -32,7 +32,7 @@ If PowerShell blocks environment activation, run the app using the virtual envir
 
 ## GitHub and Streamlit Community Cloud
 
-1. Create a public GitHub repository and upload the project files: `app.py`, `drilling_calculations.py`, `drilling_visualization.py`, `requirements.txt`, `README.md`, and `.gitignore`.
+1. Create a public GitHub repository and upload the project files: `app.py`, `drilling_calculations.py`, `drilling_visualization.py`, `requirements.txt`, `README.md`, `.gitignore`, and `.streamlit/config.toml` (the Streamlit theme settings).
 2. Sign in to Streamlit Community Cloud with the GitHub account that owns the repository.
 3. Choose **New app**, select the repository and branch, set the main file to `app.py`, and deploy.
 4. Open the deployed link and confirm that the app loads and recalculates when inputs change.
@@ -41,18 +41,3 @@ If PowerShell blocks environment activation, run the app using the virtual envir
 The five-page report and seven-slide presentation are included beside the source files. Update their team placeholders and replace the report's illustrative calculation with the group's textbook example before submission. The app permanently displays group PAPER X and the names NEEL JASANI, MANVIR PANCHAL, and REHANT PATIL.
 
 ## Calculation model and assumptions
-
-- Metric units; entered hole depth is the full-diameter section. The drill point is added as breakthrough allowance for through-holes or pointed-bottom allowance for blind holes.
-- Point allowance: `Lp = (D / 2) / tan(point angle / 2)`. The default point angle is 118°.
-- Spindle speed: `N = 1000 × Vc / (π × D)`; feed rate: `Vf = f × N`.
-- Feed-motion time: `(approach + full-diameter depth + point allowance) / feed rate × 60` seconds.
-- Approach clearance defaults to 2 mm and is editable. The optional extended estimate adds the displayed rapid, peck, dwell, and tool-change allowances.
-- Machine caps apply to spindle speed and feed when enabled. The feed recommendation is an educational starting estimate, not manufacturer-specific data.
-- The animation is illustrative. The phase selector is a schematic position preview, not an actual machine simulation. Estimates exclude loading, workholding, acceleration ramps, controller-specific motion profiles, setup time, and actual production variability.
-- The dependency minimum is Streamlit 1.49 because the app uses the current `width="stretch"` layout option.
-
-## References
-
-- [Gühring drilling technical support](https://guhring.com/Support/Drilling)
-- [Gühring speed and feed reference chart](https://guhring.com/media/speedfeed/4025.pdf)
-- [Sandvik Coromant metric formulas](https://cdn.sandvik.coromant.com/files/sitecollectiondocuments/services/metal-cutting-e-learning/formulas-and-definitions/formulas-and-deinitions-for-turning-metric-enu.pdf)
