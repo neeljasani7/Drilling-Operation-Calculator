@@ -439,12 +439,12 @@ def drilling_animation(
           <rect x="{hole_left:.1f}" y="{surface_y}" width="{hole_width:.1f}" height="{depth_px:.1f}" fill="#061725"/>
           <path d="M{hole_left:.1f} {surface_y + depth_px:.1f} L{center_x:.1f} {surface_y + depth_px + point_px:.1f} L{hole_right:.1f} {surface_y + depth_px:.1f} Z" fill="#061725" stroke="#19D3C5" stroke-opacity=".65"/>
           <rect x="100" y="{surface_y + 148}" width="560" height="18" rx="2" fill="url(#stock)" stroke="#50748B"/>
-        """
+        """.strip()
     else:
         stock_shapes = f"""
           <rect x="100" y="{surface_y}" width="{hole_left - 100:.1f}" height="166" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
           <rect x="{hole_right:.1f}" y="{surface_y}" width="{660 - hole_right:.1f}" height="166" rx="3" fill="{stock_gradient}" stroke="#50748B"/>
-        """
+        """.strip()
     cycle_duration = min(18.0, max(4.0, feed_time_sec / max(playback_rate, 0.25)))
     spin_duration = min(2.5, max(0.12, 800.0 / max(spindle_rpm, 1.0)))
     wrapper_class = "sim-frame" if motion_enabled else "sim-frame motion-off"
